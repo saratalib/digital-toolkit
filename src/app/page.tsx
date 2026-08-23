@@ -149,7 +149,7 @@ export default function Home() {
                         </div>
 
                         <h1 className="mt-7 text-4xl font-bold tracking-tight sm:text-6xl">
-                            Useful Digital Tools,
+                            Useful Digital Tools
                             <span className="block text-slate-500">
                                 All in one place.
                             </span>
