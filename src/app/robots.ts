@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 
-export default function robots(): MetadataRoute.Robots {
-    const baseUrl = "https://digitalkit.example.com";
+const baseUrl = "https://getdigitalkit.online";
 
+export default function robots(): MetadataRoute.Robots {
     return {
         rules: {
             userAgent: "*",
@@ -11,3 +11,4 @@ export default function robots(): MetadataRoute.Robots {
         sitemap: `${baseUrl}/sitemap.xml`,
     };
 }
+
