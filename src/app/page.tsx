@@ -1,3 +1,4 @@
+
 const tools = [
     {
         name: "Invoice Generator",
@@ -22,6 +23,78 @@ const tools = [
         icon: "💰",
         href: "/profit",
         label: "Business",
+    },
+    {
+        name: "Unit Converter",
+        description:
+            "Convert length, weight, temperature, area, volume, and speed instantly.",
+        icon: "📏",
+        href: "/unit-converter",
+        label: "Utilities",
+    },
+    {
+        name: "JSON Formatter",
+        description:
+            "Format, minify, validate, and copy JSON quickly.",
+        icon: "🧩",
+        href: "/json-formatter",
+        label: "Developer",
+    },
+    {
+        name: "Base64 Encoder & Decoder",
+        description:
+            "Encode text to Base64 or decode Base64 back into readable text.",
+        icon: "🔐",
+        href: "/base64",
+        label: "Developer",
+    },
+    {
+        name: "UUID Generator",
+        description:
+            "Generate random UUIDs instantly for your apps and projects.",
+        icon: "🆔",
+        href: "/uuid-generator",
+        label: "Developer",
+    },
+    {
+        name: "Timestamp Converter",
+        description:
+            "Convert Unix timestamps into dates and dates into Unix timestamps.",
+        icon: "🕐",
+        href: "/timestamp-converter",
+        label: "Developer",
+    },
+    {
+        name: "Color Converter",
+        description:
+            "Convert HEX colors to RGB and HSL with a live color preview.",
+        icon: "🎨",
+        href: "/color-converter",
+        label: "Design",
+    },
+    {
+        name: "Image Resizer",
+        description:
+            "Resize images to your preferred dimensions directly in your browser.",
+        icon: "📐",
+        href: "/image-resizer",
+        label: "Images",
+    },
+    {
+        name: "Percentage Calculator",
+        description:
+            "Calculate percentages, percentage changes, increases, and decreases.",
+        icon: "％",
+        href: "/percentage-calculator",
+        label: "Calculators",
+    },
+    {
+        name: "Tip Calculator",
+        description:
+            "Calculate tips, total bills, and the amount each person should pay.",
+        icon: "🧮",
+        href: "/tip-calculator",
+        label: "Calculators",
     },
 ];
 
