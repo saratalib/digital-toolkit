@@ -1,25 +1,36 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+const siteUrl = "https://getdigitalkit.online";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://digitalkit.example.com"),
+  metadataBase: new URL(siteUrl),
 
   title: {
-    default: "DigitalKit - Simple Online Tools",
+    default: "DigitalKit - Free Online Tools",
     template: "%s | DigitalKit",
   },
 
   description:
-    "DigitalKit provides simple, fast and useful online tools for invoices, images, documents and everyday digital work.",
+    "DigitalKit is a collection of fast, simple and free online tools for business, developers, images, calculations and everyday digital work.",
 
   keywords: [
     "online tools",
     "free online tools",
+    "digital tools",
     "invoice generator",
     "image compressor",
-    "productivity tools",
-    "business tools",
-    "digital tools",
+    "image resizer",
+    "QR code generator",
+    "password generator",
+    "JSON formatter",
+    "Base64 encoder",
+    "UUID generator",
+    "timestamp converter",
+    "unit converter",
+    "percentage calculator",
+    "tip calculator",
+    "color converter",
   ],
 
   authors: [
@@ -30,6 +41,10 @@ export const metadata: Metadata = {
 
   creator: "DigitalKit",
   publisher: "DigitalKit",
+
+  alternates: {
+    canonical: siteUrl,
+  },
 
   robots: {
     index: true,
@@ -46,17 +61,17 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "DigitalKit",
-    title: "DigitalKit - Simple Online Tools",
+    title: "DigitalKit - Free Online Tools",
     description:
-      "Simple and useful online tools for everyday digital work.",
-    url: "https://digitalkit.example.com",
+      "Fast, simple and free online tools for business, developers, images, calculations and everyday digital work.",
+    url: siteUrl,
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "DigitalKit - Simple Online Tools",
+    title: "DigitalKit - Free Online Tools",
     description:
-      "Simple and useful online tools for everyday digital work.",
+      "Fast, simple and free online tools for everyday digital work.",
   },
 };
 
@@ -67,9 +82,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">
-        {children}
-      </body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
+
