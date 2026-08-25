@@ -1,818 +1,317 @@
 "use client";
 
-import { ChangeEvent, DragEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-type ImageFormat = "image/jpeg" | "image/png" | "image/webp";
+type Scale = 2 | 4;
 
-type ImageInfo = {
-    file: File;
-    previewUrl: string;
-    width: number;
-    height: number;
-};
-
-const formatOptions: {
-    value: ImageFormat;
-    label: string;
-}[] = [
-        { value: "image/jpeg", label: "JPG" },
-        { value: "image/png", label: "PNG" },
-        { value: "image/webp", label: "WebP" },
-    ];
-
-function formatBytes(bytes: number) {
-    if (bytes === 0) return "0 Bytes";
-
-    const units = ["Bytes", "KB", "MB", "GB"];
-    const index = Math.floor(
-        Math.log(bytes) / Math.log(1024)
-    );
-
-    return `${(bytes / Math.pow(1024, index)).toFixed(
-        index === 0 ? 0 : 2
-    )} ${units[index]}`;
-}
-
-function getExtension(format: ImageFormat) {
-    if (format === "image/png") return "png";
-    if (format === "image/webp") return "webp";
-    return "jpg";
-}
-
-export default function ImageCompressorPage() {
-    const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-    const [image, setImage] = useState<ImageInfo | null>(null);
-
-    const [quality, setQuality] = useState(80);
-
-    const [maxWidth, setMaxWidth] = useState("");
-
-    const [format, setFormat] =
-        useState<ImageFormat>("image/jpeg");
-
-    const [compressedBlob, setCompressedBlob] =
-        useState<Blob | null>(null);
-
-    const [compressedPreviewUrl, setCompressedPreviewUrl] =
-        useState<string | null>(null);
-
-    const [isCompressing, setIsCompressing] =
-        useState(false);
-
-    const [isDragging, setIsDragging] =
-        useState(false);
-
+export default function ImageEnhancerPage() {
+    const [file, setFile] = useState<File | null>(null);
+    const [preview, setPreview] = useState("");
+    const [result, setResult] = useState("");
+    const [scale, setScale] = useState<Scale>(2);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
     useEffect(() => {
         return () => {
-            if (image?.previewUrl) {
-                URL.revokeObjectURL(image.previewUrl);
-            }
-
-            if (compressedPreviewUrl) {
-                URL.revokeObjectURL(compressedPreviewUrl);
-            }
+            if (preview) URL.revokeObjectURL(preview);
+            if (result) URL.revokeObjectURL(result);
         };
-    }, [image, compressedPreviewUrl]);
+    }, [preview, result]);
 
-    const loadImage = (file: File) => {
-        setError("");
+    function handleFileChange(selectedFile: File | null) {
+        if (!selectedFile) return;
 
-        if (!file.type.startsWith("image/")) {
-            setError(
-                "Please select a valid image file."
-            );
+        if (!selectedFile.type.startsWith("image/")) {
+            setError("Please choose a valid image.");
             return;
         }
 
-        const previewUrl =
-            URL.createObjectURL(file);
+        if (preview) URL.revokeObjectURL(preview);
+        if (result) URL.revokeObjectURL(result);
 
-        const img = new Image();
-
-        img.onload = () => {
-            if (image?.previewUrl) {
-                URL.revokeObjectURL(
-                    image.previewUrl
-                );
-            }
-
-            if (compressedPreviewUrl) {
-                URL.revokeObjectURL(
-                    compressedPreviewUrl
-                );
-            }
-
-            setImage({
-                file,
-                previewUrl,
-                width: img.naturalWidth,
-                height: img.naturalHeight,
-            });
-
-            setCompressedBlob(null);
-            setCompressedPreviewUrl(null);
-        };
-
-        img.onerror = () => {
-            URL.revokeObjectURL(previewUrl);
-
-            setError(
-                "This image could not be opened. Please try another image."
-            );
-        };
-
-        img.src = previewUrl;
-    };
-
-    const handleFileChange = (
-        event: ChangeEvent<HTMLInputElement>
-    ) => {
-        const file = event.target.files?.[0];
-
-        if (file) {
-            loadImage(file);
-        }
-
-        event.target.value = "";
-    };
-
-    const handleDrop = (
-        event: DragEvent<HTMLDivElement>
-    ) => {
-        event.preventDefault();
-        setIsDragging(false);
-
-        const file = event.dataTransfer.files?.[0];
-
-        if (file) {
-            loadImage(file);
-        }
-    };
-
-    const compressImage = async () => {
-        if (!image) return;
-
+        setFile(selectedFile);
+        setPreview(URL.createObjectURL(selectedFile));
+        setResult("");
         setError("");
-        setIsCompressing(true);
+    }
+
+    async function enhanceImage() {
+        if (!file) {
+            setError("Please choose an image first.");
+            return;
+        }
+
+        setLoading(true);
+        setError("");
+        setResult("");
 
         try {
-            const img = new Image();
+            const image = new Image();
+            const imageUrl = URL.createObjectURL(file);
 
-            img.src = image.previewUrl;
+            await new Promise<void>((resolve, reject) => {
+                image.onload = () => resolve();
+                image.onerror = () => reject(new Error("Could not read the image."));
+                image.src = imageUrl;
+            });
 
-            await new Promise<void>(
-                (resolve, reject) => {
-                    img.onload = () => resolve();
-                    img.onerror = () =>
-                        reject(
-                            new Error(
-                                "Could not load image."
-                            )
-                        );
-                }
-            );
+            const maxOutputSize = 8000;
 
-            let targetWidth = image.width;
-            let targetHeight = image.height;
+            let width = image.naturalWidth * scale;
+            let height = image.naturalHeight * scale;
 
-            const requestedWidth =
-                Number(maxWidth);
-
-            if (
-                requestedWidth > 0 &&
-                requestedWidth < image.width
-            ) {
-                targetWidth = requestedWidth;
-
-                targetHeight = Math.round(
-                    (image.height / image.width) *
-                    targetWidth
+            if (width > maxOutputSize || height > maxOutputSize) {
+                const ratio = Math.min(
+                    maxOutputSize / width,
+                    maxOutputSize / height
                 );
+
+                width = Math.floor(width * ratio);
+                height = Math.floor(height * ratio);
             }
 
-            const canvas =
-                document.createElement("canvas");
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
 
-            canvas.width = targetWidth;
-            canvas.height = targetHeight;
+            const ctx = canvas.getContext("2d");
 
-            const context =
-                canvas.getContext("2d");
-
-            if (!context) {
-                throw new Error(
-                    "Your browser could not create the image canvas."
-                );
+            if (!ctx) {
+                throw new Error("Your browser could not process the image.");
             }
 
-            if (format === "image/jpeg") {
-                context.fillStyle = "#ffffff";
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = "high";
 
-                context.fillRect(
-                    0,
-                    0,
-                    targetWidth,
-                    targetHeight
-                );
-            }
+            ctx.drawImage(image, 0, 0, width, height);
 
-            context.drawImage(
-                img,
-                0,
-                0,
-                targetWidth,
-                targetHeight
-            );
+            URL.revokeObjectURL(imageUrl);
 
-            const qualityValue =
-                quality / 100;
+            const imageData = ctx.getImageData(0, 0, width, height);
+            const data = imageData.data;
+            const original = new Uint8ClampedArray(data);
 
-            const blob =
-                await new Promise<Blob | null>(
-                    (resolve) => {
-                        canvas.toBlob(
-                            resolve,
-                            format,
-                            qualityValue
-                        );
+            const strength = scale === 4 ? 0.28 : 0.22;
+
+            for (let y = 1; y < height - 1; y++) {
+                for (let x = 1; x < width - 1; x++) {
+                    const i = (y * width + x) * 4;
+
+                    for (let channel = 0; channel < 3; channel++) {
+                        const center = original[i + channel];
+
+                        const top = original[i - width * 4 + channel];
+                        const bottom = original[i + width * 4 + channel];
+                        const left = original[i - 4 + channel];
+                        const right = original[i + 4 + channel];
+
+                        const sharpened =
+                            center * 5 - top - bottom - left - right;
+
+                        data[i + channel] =
+                            center + (sharpened - center) * strength;
                     }
-                );
+                }
+            }
+
+            ctx.putImageData(imageData, 0, 0);
+
+            const blob = await new Promise<Blob | null>((resolve) => {
+                canvas.toBlob(resolve, "image/png", 1);
+            });
 
             if (!blob) {
-                throw new Error(
-                    "The browser could not compress this image."
-                );
+                throw new Error("Could not create the enhanced image.");
             }
 
-            if (compressedPreviewUrl) {
-                URL.revokeObjectURL(
-                    compressedPreviewUrl
-                );
-            }
-
-            const newPreviewUrl =
-                URL.createObjectURL(blob);
-
-            setCompressedBlob(blob);
-            setCompressedPreviewUrl(
-                newPreviewUrl
-            );
-        } catch (compressionError) {
-            console.error(
-                compressionError
-            );
-
+            setResult(URL.createObjectURL(blob));
+        } catch (err) {
             setError(
-                "Something went wrong while compressing the image."
+                err instanceof Error
+                    ? err.message
+                    : "Could not enhance the image."
             );
         } finally {
-            setIsCompressing(false);
+            setLoading(false);
         }
-    };
-
-    const downloadImage = () => {
-        if (!compressedBlob || !image) {
-            return;
-        }
-
-        const url =
-            URL.createObjectURL(
-                compressedBlob
-            );
-
-        const link =
-            document.createElement("a");
-
-        const originalName =
-            image.file.name.replace(
-                /\.[^/.]+$/,
-                ""
-            );
-
-        link.href = url;
-
-        link.download = `${originalName}-compressed.${getExtension(
-            format
-        )}`;
-
-        document.body.appendChild(link);
-
-        link.click();
-
-        link.remove();
-
-        URL.revokeObjectURL(url);
-    };
-
-    const reset = () => {
-        if (image?.previewUrl) {
-            URL.revokeObjectURL(
-                image.previewUrl
-            );
-        }
-
-        if (compressedPreviewUrl) {
-            URL.revokeObjectURL(
-                compressedPreviewUrl
-            );
-        }
-
-        setImage(null);
-        setCompressedBlob(null);
-        setCompressedPreviewUrl(null);
-        setError("");
-        setQuality(80);
-        setMaxWidth("");
-        setFormat("image/jpeg");
-    };
-
-    const compressionPercent =
-        image && compressedBlob
-            ? Math.max(
-                0,
-                Math.round(
-                    (1 -
-                        compressedBlob.size /
-                        image.file.size) *
-                    100
-                )
-            )
-            : 0;
+    }
 
     return (
-        <main className="min-h-screen bg-slate-50 px-6 py-10 text-slate-900">
+        <main className="min-h-screen bg-slate-50">
+            <header className="border-b border-slate-200 bg-white">
+                <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
+                    <a
+                        href="/"
+                        className="text-xl font-bold tracking-tight text-slate-900"
+                    >
+                        DigitalKit
+                    </a>
 
-            <div className="mx-auto max-w-6xl">
+                    <a
+                        href="/"
+                        className="text-sm font-medium text-slate-500 hover:text-slate-900"
+                    >
+                        ← Back to Tools
+                    </a>
+                </div>
+            </header>
 
-                {/* BACK */}
+            <section className="mx-auto max-w-5xl px-6 py-16">
+                <div className="text-center">
+                    <div className="inline-flex rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600">
+                        ✨ Free Image Enhancer
+                    </div>
 
-                <a
-                    href="/"
-                    className="text-sm font-medium text-slate-500 transition hover:text-slate-900"
-                >
-                    ← Back to DigitalKit
-                </a>
-
-                {/* HEADER */}
-
-                <div className="mt-8">
-
-                    <h1 className="text-4xl font-bold tracking-tight">
-                        Image Compressor
+                    <h1 className="mt-6 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+                        Make Your Images HD
                     </h1>
 
-                    <p className="mt-3 max-w-2xl text-slate-600">
-                        Compress images quickly without
-                        uploading them to a server. Reduce
-                        file size while keeping your images
-                        looking great.
+                    <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">
+                        Upscale and sharpen your images directly in your browser.
+                        Choose HD 2× or Super HD 4× and download your enhanced image.
                     </p>
-
                 </div>
 
-                {/* ERROR */}
+                <div className="mt-12 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+                    <label
+                        htmlFor="image-upload"
+                        className="flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-300 px-6 py-14 text-center transition hover:border-slate-400 hover:bg-slate-50"
+                    >
+                        <div className="text-5xl">🖼️</div>
 
-                {error && (
-                    <div className="mt-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-                        {error}
-                    </div>
-                )}
+                        <h2 className="mt-5 text-xl font-bold text-slate-900">
+                            Upload an image
+                        </h2>
 
-                {!image ? (
+                        <p className="mt-2 text-sm text-slate-500">
+                            PNG, JPG, JPEG or WEBP
+                        </p>
 
-                    /* UPLOAD AREA */
+                        <span className="mt-6 rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white">
+                            Choose Image
+                        </span>
 
-                    <section className="mt-10">
+                        <input
+                            id="image-upload"
+                            type="file"
+                            accept="image/png,image/jpeg,image/webp"
+                            className="hidden"
+                            onChange={(event) =>
+                                handleFileChange(event.target.files?.[0] || null)
+                            }
+                        />
+                    </label>
 
-                        <div
-                            onDragEnter={(event) => {
-                                event.preventDefault();
-                                setIsDragging(true);
-                            }}
-                            onDragOver={(event) => {
-                                event.preventDefault();
-                                setIsDragging(true);
-                            }}
-                            onDragLeave={(event) => {
-                                event.preventDefault();
-                                setIsDragging(false);
-                            }}
-                            onDrop={handleDrop}
-                            className={`rounded-3xl border-2 border-dashed p-10 text-center transition sm:p-16 ${isDragging
-                                    ? "border-slate-900 bg-slate-100"
-                                    : "border-slate-300 bg-white hover:border-slate-400"
-                                }`}
-                        >
-
-                            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-3xl">
-                                🖼️
-                            </div>
-
-                            <h2 className="mt-6 text-2xl font-bold">
-                                Drop your image here
-                            </h2>
-
-                            <p className="mt-2 text-slate-500">
-                                or choose an image from your
-                                computer
-                            </p>
-
-                            <button
-                                onClick={() =>
-                                    fileInputRef.current?.click()
-                                }
-                                className="mt-6 rounded-xl bg-slate-900 px-6 py-3 font-semibold text-white transition hover:bg-slate-700"
-                            >
-                                Choose Image
-                            </button>
-
-                            <input
-                                ref={fileInputRef}
-                                type="file"
-                                accept="image/jpeg,image/png,image/webp,image/gif"
-                                onChange={handleFileChange}
-                                className="hidden"
-                            />
-
-                            <p className="mt-5 text-xs text-slate-400">
-                                JPG, PNG, WebP and other common
-                                image formats
-                            </p>
-
-                            <div className="mx-auto mt-8 max-w-xl rounded-xl bg-slate-50 p-4 text-left">
-
-                                <p className="text-sm font-semibold">
-                                    🔒 Your privacy
-                                </p>
-
-                                <p className="mt-1 text-xs leading-5 text-slate-500">
-                                    Your image is processed directly
-                                    in your browser. It is not
-                                    uploaded to our server.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </section>
-
-                ) : (
-
-                    /* MAIN COMPRESSOR */
-
-                    <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_380px]">
-
-                        {/* IMAGE PREVIEW */}
-
-                        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-
-                            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-
-                                <div>
-
-                                    <h2 className="text-xl font-bold">
-                                        Your image
-                                    </h2>
-
-                                    <p className="mt-1 text-sm text-slate-500">
-                                        {image.file.name}
-                                    </p>
-
-                                </div>
-
-                                <button
-                                    onClick={reset}
-                                    className="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold hover:bg-slate-50"
-                                >
-                                    Choose another
-                                </button>
-
-                            </div>
-
-                            <div className="mt-6 overflow-hidden rounded-2xl bg-slate-100">
-
+                    {file && (
+                        <div className="mt-8">
+                            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
                                 <img
-                                    src={image.previewUrl}
+                                    src={preview}
                                     alt="Selected image"
-                                    className="mx-auto max-h-[600px] w-auto max-w-full object-contain"
+                                    className="max-h-[500px] w-full object-contain"
                                 />
-
                             </div>
 
-                            <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                            <p className="mt-3 text-center text-sm text-slate-500">
+                                {file.name}
+                            </p>
 
-                                <div className="rounded-xl bg-slate-50 p-4">
-
-                                    <p className="text-xs font-medium text-slate-500">
-                                        Original size
-                                    </p>
-
-                                    <p className="mt-1 font-bold">
-                                        {formatBytes(
-                                            image.file.size
-                                        )}
-                                    </p>
-
-                                </div>
-
-                                <div className="rounded-xl bg-slate-50 p-4">
-
-                                    <p className="text-xs font-medium text-slate-500">
-                                        Dimensions
-                                    </p>
-
-                                    <p className="mt-1 font-bold">
-                                        {image.width} ×{" "}
-                                        {image.height}
-                                    </p>
-
-                                </div>
-
-                                <div className="rounded-xl bg-slate-50 p-4">
-
-                                    <p className="text-xs font-medium text-slate-500">
-                                        Format
-                                    </p>
-
-                                    <p className="mt-1 font-bold uppercase">
-                                        {image.file.type
-                                            .split("/")
-                                            .pop()}
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                            {compressedBlob && (
-                                <div className="mt-5 rounded-xl border border-green-200 bg-green-50 p-4">
-
-                                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-
-                                        <div>
-
-                                            <p className="text-sm font-semibold text-green-800">
-                                                Compression complete
-                                            </p>
-
-                                            <p className="mt-1 text-sm text-green-700">
-                                                {formatBytes(
-                                                    image.file.size
-                                                )}{" "}
-                                                →{" "}
-                                                {formatBytes(
-                                                    compressedBlob.size
-                                                )}
-                                            </p>
-
-                                        </div>
-
-                                        <div className="text-lg font-bold text-green-700">
-                                            {compressionPercent}%
-                                            smaller
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                            )}
-
-                        </section>
-
-                        {/* SETTINGS */}
-
-                        <section className="h-fit rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-
-                            <h2 className="text-xl font-bold">
-                                Compression settings
-                            </h2>
-
-                            {/* QUALITY */}
-
-                            <div className="mt-7">
-
-                                <div className="flex items-center justify-between">
-
-                                    <label className="text-sm font-semibold">
-                                        Quality
-                                    </label>
-
-                                    <span className="rounded-lg bg-slate-100 px-3 py-1 text-sm font-bold">
-                                        {quality}%
-                                    </span>
-
-                                </div>
-
-                                <input
-                                    type="range"
-                                    min="10"
-                                    max="100"
-                                    step="5"
-                                    value={quality}
-                                    onChange={(e) =>
-                                        setQuality(
-                                            Number(
-                                                e.target.value
-                                            )
-                                        )
-                                    }
-                                    className="mt-4 w-full accent-slate-900"
-                                />
-
-                                <div className="mt-2 flex justify-between text-xs text-slate-400">
-                                    <span>
-                                        Smaller file
-                                    </span>
-
-                                    <span>
-                                        Better quality
-                                    </span>
-                                </div>
-
-                            </div>
-
-                            {/* FORMAT */}
-
-                            <div className="mt-7">
-
-                                <label className="text-sm font-semibold">
-                                    Output format
-                                </label>
-
-                                <div className="mt-3 grid grid-cols-3 gap-2">
-
-                                    {formatOptions.map(
-                                        (option) => (
-
-                                            <button
-                                                key={
-                                                    option.value
-                                                }
-                                                onClick={() =>
-                                                    setFormat(
-                                                        option.value
-                                                    )
-                                                }
-                                                className={`rounded-xl border px-3 py-3 text-sm font-semibold transition ${format ===
-                                                        option.value
-                                                        ? "border-slate-900 bg-slate-900 text-white"
-                                                        : "border-slate-200 hover:border-slate-400"
-                                                    }`}
-                                            >
-                                                {
-                                                    option.label
-                                                }
-                                            </button>
-
-                                        )
-                                    )}
-
-                                </div>
-
-                            </div>
-
-                            {/* WIDTH */}
-
-                            <div className="mt-7">
-
-                                <label className="text-sm font-semibold">
-                                    Maximum width
-                                    <span className="ml-1 font-normal text-slate-400">
-                                        (optional)
-                                    </span>
-                                </label>
-
-                                <input
-                                    type="number"
-                                    min="1"
-                                    placeholder={`Original: ${image.width}px`}
-                                    value={maxWidth}
-                                    onChange={(e) =>
-                                        setMaxWidth(
-                                            e.target.value
-                                        )
-                                    }
-                                    className="mt-3 w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-slate-500"
-                                />
-
-                                <p className="mt-2 text-xs leading-5 text-slate-400">
-                                    The height will be adjusted
-                                    automatically to keep the
-                                    original proportions.
+                            <div className="mt-8">
+                                <p className="text-sm font-semibold text-slate-900">
+                                    Enhancement level
                                 </p>
 
-                            </div>
+                                <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                                    <button
+                                        type="button"
+                                        onClick={() => setScale(2)}
+                                        className={`rounded-2xl border p-5 text-left transition ${scale === 2
+                                                ? "border-slate-900 bg-slate-900 text-white"
+                                                : "border-slate-200 bg-white text-slate-900 hover:border-slate-400"
+                                            }`}
+                                    >
+                                        <div className="text-lg font-bold">HD · 2×</div>
 
-                            {/* COMPRESS */}
+                                        <div
+                                            className={`mt-1 text-sm ${scale === 2 ? "text-slate-300" : "text-slate-500"
+                                                }`}
+                                        >
+                                            Sharper and larger
+                                        </div>
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        onClick={() => setScale(4)}
+                                        className={`rounded-2xl border p-5 text-left transition ${scale === 4
+                                                ? "border-slate-900 bg-slate-900 text-white"
+                                                : "border-slate-200 bg-white text-slate-900 hover:border-slate-400"
+                                            }`}
+                                    >
+                                        <div className="text-lg font-bold">
+                                            Super HD · 4×
+                                        </div>
+
+                                        <div
+                                            className={`mt-1 text-sm ${scale === 4 ? "text-slate-300" : "text-slate-500"
+                                                }`}
+                                        >
+                                            Maximum free upscale
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
 
                             <button
-                                onClick={compressImage}
-                                disabled={isCompressing}
-                                className="mt-8 w-full rounded-xl bg-slate-900 px-5 py-3 font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60"
+                                type="button"
+                                onClick={enhanceImage}
+                                disabled={loading}
+                                className="mt-8 w-full rounded-xl bg-slate-900 px-6 py-4 font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
                             >
-                                {isCompressing
-                                    ? "Compressing..."
-                                    : "Compress Image"}
+                                {loading
+                                    ? "Enhancing image..."
+                                    : `Enhance Image · ${scale}×`}
                             </button>
+                        </div>
+                    )}
 
-                            {/* DOWNLOAD */}
+                    {error && (
+                        <div className="mt-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                            {error}
+                        </div>
+                    )}
 
-                            {compressedBlob && (
-                                <button
-                                    onClick={downloadImage}
-                                    className="mt-3 w-full rounded-xl border border-slate-900 px-5 py-3 font-semibold text-slate-900 transition hover:bg-slate-50"
-                                >
-                                    Download Compressed Image
-                                </button>
-                            )}
+                    {result && (
+                        <div className="mt-10 border-t border-slate-200 pt-10">
+                            <h2 className="text-2xl font-bold text-slate-900">
+                                Enhanced Image
+                            </h2>
 
-                            <div className="mt-6 rounded-xl bg-slate-50 p-4">
-
-                                <p className="text-xs font-semibold">
-                                    💡 Tip
-                                </p>
-
-                                <p className="mt-1 text-xs leading-5 text-slate-500">
-                                    For websites, try WebP at
-                                    around 75–85% quality. For
-                                    photos that need maximum
-                                    compatibility, JPG is a good
-                                    choice.
-                                </p>
-
+                            <div className="mt-5 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+                                <img
+                                    src={result}
+                                    alt="Enhanced image"
+                                    className="max-h-[700px] w-full object-contain"
+                                />
                             </div>
 
-                        </section>
-
-                    </div>
-
-                )}
-
-                {/* BOTTOM INFO */}
-
-                <section className="mt-12 grid gap-4 sm:grid-cols-3">
-
-                    <div className="rounded-2xl border border-slate-200 bg-white p-5">
-
-                        <div className="text-2xl">
-                            ⚡
+                            <a
+                                href={result}
+                                download={`digitalkit-enhanced-${scale}x.png`}
+                                className="mt-6 block w-full rounded-xl bg-slate-900 px-6 py-4 text-center font-semibold text-white transition hover:bg-slate-800"
+                            >
+                                Download Enhanced Image
+                            </a>
                         </div>
+                    )}
+                </div>
 
-                        <h3 className="mt-3 font-bold">
-                            Fast
-                        </h3>
-
-                        <p className="mt-1 text-sm leading-6 text-slate-500">
-                            Compress images directly in
-                            your browser without waiting
-                            for uploads.
-                        </p>
-
-                    </div>
-
-                    <div className="rounded-2xl border border-slate-200 bg-white p-5">
-
-                        <div className="text-2xl">
-                            🔒
-                        </div>
-
-                        <h3 className="mt-3 font-bold">
-                            Private
-                        </h3>
-
-                        <p className="mt-1 text-sm leading-6 text-slate-500">
-                            Your images stay on your device
-                            while they are being processed.
-                        </p>
-
-                    </div>
-
-                    <div className="rounded-2xl border border-slate-200 bg-white p-5">
-
-                        <div className="text-2xl">
-                            💰
-                        </div>
-
-                        <h3 className="mt-3 font-bold">
-                            Free to use
-                        </h3>
-
-                        <p className="mt-1 text-sm leading-6 text-slate-500">
-                            Compress images without
-                            creating an account or paying
-                            for a subscription.
-                        </p>
-
-                    </div>
-
-                </section>
-
-            </div>
-
+                <div className="mt-8 text-center text-sm text-slate-500">
+                    Your image is processed locally in your browser. It is not uploaded
+                    to a server.
+                </div>
+            </section>
         </main>
     );
 }
