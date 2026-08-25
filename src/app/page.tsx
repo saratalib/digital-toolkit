@@ -96,6 +96,38 @@ const tools = [
         href: "/tip-calculator",
         label: "Calculators",
     },
+    {
+        name: "QR Code Generator",
+        description:
+            "Create QR codes for links, text, contact information, and more instantly.",
+        icon: "▦",
+        href: "/qr-generator",
+        label: "Utilities",
+    },
+    {
+        name: "Password Generator",
+        description:
+            "Generate strong random passwords with customizable length and character options.",
+        icon: "🔑",
+        href: "/password-generator",
+        label: "Security",
+    },
+    {
+        name: "Text Formatter",
+        description:
+            "Format, clean, transform, and organize text quickly with simple online tools.",
+        icon: "📝",
+        href: "/text-formatter",
+        label: "Utilities",
+    },
+    {
+        name: "AI Image Enhancer",
+        description:
+            "Enhance and upscale images directly in your browser with AI-powered image processing.",
+        icon: "✨",
+        href: "/image-enhancer",
+        label: "Images",
+    },
 ];
 
 export default function Home() {
