@@ -1,27 +1,44 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Image Resizer Online Free | Resize JPG PNG WEBP | DigitalKit",
+    title: "Image Resizer Online – Resize Images for Free",
     description:
-        "Resize JPG, PNG and WEBP images online for free. Change image width and height while keeping the aspect ratio directly in your browser.",
+        "Resize images online for free. Change image width and height while keeping the aspect ratio. Works directly in your browser with no upload required.",
+
     keywords: [
         "image resizer",
         "resize image online",
-        "resize JPG online",
-        "resize PNG online",
-        "resize WEBP online",
+        "resize image",
+        "image resize tool",
         "free image resizer",
+        "online image resizer",
+        "resize photo online",
+        "change image dimensions",
     ],
+
     alternates: {
         canonical: "https://www.getdigitalkit.online/image-resizer",
     },
+
+    openGraph: {
+        title: "Image Resizer Online – Resize Images for Free",
+        description:
+            "Free online image resizer. Change image dimensions and keep the aspect ratio directly in your browser.",
+        url: "https://www.getdigitalkit.online/image-resizer",
+        siteName: "DigitalKit",
+        type: "website",
+    },
+
+    robots: {
+        index: true,
+        follow: true,
+    },
 };
 
-export default function Layout({
+export default function ImageResizerLayout({
     children,
-}: Readonly<{
+}: {
     children: React.ReactNode;
-}>) {
+}) {
     return children;
 }
-
