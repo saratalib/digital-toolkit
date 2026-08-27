@@ -1,18 +1,1 @@
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-    title: "Free Image Resizer",
-    description:
-        "Resize JPG, JPEG, PNG and WEBP images online for free. Change image dimensions quickly while keeping good quality with DigitalKit.",
-    alternates: {
-        canonical: "https://getdigitalkit.online/image-resizer",
-    },
-};
-
-export default function ImageResizerLayout({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
-    return children;
-}
+import type { Metadata } from "next"; export const metadata: Metadata = { title: "Free Image Resizer Online", description: "Resize JPG, PNG, and WEBP images online for free. Set custom image dimensions directly in your browser.", alternates: { canonical: "/image-resizer" }, }; export default function Layout({ children, }: Readonly<{ children: React.ReactNode }>) { return children; }

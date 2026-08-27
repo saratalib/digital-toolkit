@@ -130,6 +130,245 @@ const tools = [
     },
 ];
 
+{/* SEO CONTENT */ }
+
+<section className="border-y border-slate-200 bg-white">
+    <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+
+        <div className="mx-auto max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-wider text-slate-400">
+                Free Online Tools
+            </p>
+
+            <h2 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">
+                Simple tools for everyday digital work
+            </h2>
+
+            <div className="mt-6 space-y-5 text-base leading-7 text-slate-600">
+                <p>
+                    DigitalKit is a collection of free online tools designed
+                    to help you complete common digital tasks quickly and
+                    without complicated software. From creating invoices and
+                    calculating profit to converting files, formatting text,
+                    working with images, and generating useful developer data,
+                    everything is available in one place.
+                </p>
+
+                <p>
+                    Need to resize or compress an image? Use the
+                    <a
+                        href="/image-resizer"
+                        className="mx-1 font-semibold text-slate-900 underline underline-offset-4"
+                    >
+                        Image Resizer
+                    </a>
+                    or
+                    <a
+                        href="/image-compressor"
+                        className="mx-1 font-semibold text-slate-900 underline underline-offset-4"
+                    >
+                        Image Compressor
+                    </a>.
+                    Working with data or code? Try the
+                    <a
+                        href="/json-formatter"
+                        className="mx-1 font-semibold text-slate-900 underline underline-offset-4"
+                    >
+                        JSON Formatter
+                    </a>,
+                    <a
+                        href="/base64"
+                        className="mx-1 font-semibold text-slate-900 underline underline-offset-4"
+                    >
+                        Base64 Encoder & Decoder
+                    </a>,
+                    or
+                    <a
+                        href="/uuid-generator"
+                        className="mx-1 font-semibold text-slate-900 underline underline-offset-4"
+                    >
+                        UUID Generator
+                    </a>.
+                </p>
+
+                <p>
+                    DigitalKit also includes practical calculators and
+                    business utilities. You can create an invoice, calculate
+                    percentages and tips, work out profit and pricing, convert
+                    units, generate QR codes, create strong passwords, and
+                    perform everyday text and color conversions.
+                </p>
+            </div>
+        </div>
+
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
+
+            <div className="rounded-2xl border border-slate-200 p-6">
+                <h3 className="text-lg font-bold text-slate-900">
+                    Business & Finance
+                </h3>
+
+                <p className="mt-3 text-sm leading-6 text-slate-500">
+                    Create invoices and calculate profit, pricing,
+                    percentages, and tips with simple browser-based tools.
+                </p>
+
+                <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
+                    <a
+                        href="/invoice"
+                        className="text-slate-900 hover:underline"
+                    >
+                        Invoice Generator →
+                    </a>
+
+                    <a
+                        href="/profit"
+                        className="text-slate-900 hover:underline"
+                    >
+                        Profit Calculator →
+                    </a>
+                </div>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 p-6">
+                <h3 className="text-lg font-bold text-slate-900">
+                    Image & Design Tools
+                </h3>
+
+                <p className="mt-3 text-sm leading-6 text-slate-500">
+                    Resize, compress, enhance, and work with images directly
+                    in your browser.
+                </p>
+
+                <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
+                    <a
+                        href="/image-compressor"
+                        className="text-slate-900 hover:underline"
+                    >
+                        Compress Images →
+                    </a>
+
+                    <a
+                        href="/image-resizer"
+                        className="text-slate-900 hover:underline"
+                    >
+                        Resize Images →
+                    </a>
+
+                    <a
+                        href="/image-enhancer"
+                        className="text-slate-900 hover:underline"
+                    >
+                        Enhance Images →
+                    </a>
+                </div>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 p-6">
+                <h3 className="text-lg font-bold text-slate-900">
+                    Developer & Utility Tools
+                </h3>
+
+                <p className="mt-3 text-sm leading-6 text-slate-500">
+                    Format data, convert values, generate identifiers, work
+                    with colors, and handle everyday developer tasks.
+                </p>
+
+                <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
+                    <a
+                        href="/json-formatter"
+                        className="text-slate-900 hover:underline"
+                    >
+                        JSON Formatter →
+                    </a>
+
+                    <a
+                        href="/unit-converter"
+                        className="text-slate-900 hover:underline"
+                    >
+                        Unit Converter →
+                    </a>
+
+                    <a
+                        href="/qr-generator"
+                        className="text-slate-900 hover:underline"
+                    >
+                        QR Generator →
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{/* FAQ */ }
+
+<section className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+    <div className="mx-auto max-w-3xl">
+        <p className="text-sm font-semibold uppercase tracking-wider text-slate-400">
+            Frequently Asked Questions
+        </p>
+
+        <h2 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">
+            Questions about DigitalKit
+        </h2>
+
+        <div className="mt-8 space-y-4">
+
+            <details className="rounded-2xl border border-slate-200 bg-white p-5">
+                <summary className="cursor-pointer font-semibold text-slate-900">
+                    Are DigitalKit tools free to use?
+                </summary>
+
+                <p className="mt-3 text-sm leading-6 text-slate-600">
+                    Yes. DigitalKit provides free browser-based tools for
+                    common business, image, developer, calculator, and
+                    everyday digital tasks.
+                </p>
+            </details>
+
+            <details className="rounded-2xl border border-slate-200 bg-white p-5">
+                <summary className="cursor-pointer font-semibold text-slate-900">
+                    Do I need to install software?
+                </summary>
+
+                <p className="mt-3 text-sm leading-6 text-slate-600">
+                    No. DigitalKit tools are designed to work directly in
+                    your web browser, so you can open a tool and start
+                    working without installing a desktop application.
+                </p>
+            </details>
+
+            <details className="rounded-2xl border border-slate-200 bg-white p-5">
+                <summary className="cursor-pointer font-semibold text-slate-900">
+                    What types of tools are available?
+                </summary>
+
+                <p className="mt-3 text-sm leading-6 text-slate-600">
+                    DigitalKit includes business tools, calculators,
+                    image tools, developer utilities, converters, text
+                    tools, security utilities, and other practical online
+                    tools.
+                </p>
+            </details>
+
+            <details className="rounded-2xl border border-slate-200 bg-white p-5">
+                <summary className="cursor-pointer font-semibold text-slate-900">
+                    Can I use DigitalKit on my phone?
+                </summary>
+
+                <p className="mt-3 text-sm leading-6 text-slate-600">
+                    Yes. The website is designed to work across modern
+                    desktop and mobile web browsers.
+                </p>
+            </details>
+
+        </div>
+    </div>
+</section>
+
+
 export default function Home() {
     return (
         <main className="min-h-screen bg-slate-50 text-slate-900">

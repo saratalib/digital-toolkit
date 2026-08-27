@@ -1,18 +1,1 @@
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-    title: "Free JSON Formatter",
-    description:
-        "Format, beautify and validate JSON online for free with this fast JSON formatter from DigitalKit.",
-    alternates: {
-        canonical: "https://getdigitalkit.online/json-formatter",
-    },
-};
-
-export default function JsonFormatterLayout({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
-    return children;
-}
+import type { Metadata } from "next"; export const metadata: Metadata = { title: "Free JSON Formatter & Validator", description: "Format, validate, minify, and copy JSON online for free. Quickly make JSON easier to read and check for errors.", alternates: { canonical: "/json-formatter" }, }; export default function Layout({ children, }: Readonly<{ children: React.ReactNode }>) { return children; }

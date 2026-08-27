@@ -1,18 +1,1 @@
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-    title: "Free Percentage Calculator",
-    description:
-        "Calculate percentages, percentage increases and decreases quickly with this free online percentage calculator from DigitalKit.",
-    alternates: {
-        canonical: "https://getdigitalkit.online/percentage-calculator",
-    },
-};
-
-export default function PercentageCalculatorLayout({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
-    return children;
-}
+import type { Metadata } from "next"; export const metadata: Metadata = { title: "Free Percentage Calculator", description: "Calculate percentages, percentage increases, decreases, and percentage changes quickly with this free online calculator.", alternates: { canonical: "/percentage-calculator" }, }; export default function Layout({ children, }: Readonly<{ children: React.ReactNode }>) { return children; }
