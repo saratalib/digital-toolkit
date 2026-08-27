@@ -1,3 +1,13 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "DigitalKit – Free Online Tools for Everyday Work",
+    description:
+        "DigitalKit provides free online tools for business, images, developers, calculators, text, security, and everyday digital tasks.",
+    alternates: {
+        canonical: "https://www.getdigitalkit.online/",
+    },
+};
 
 const tools = [
     {
@@ -130,254 +140,43 @@ const tools = [
     },
 ];
 
-{/* SEO CONTENT */ }
+const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "DigitalKit",
+    url: "https://www.getdigitalkit.online/",
+    description:
+        "Free online tools for business, images, developers, calculators, security, text, and everyday digital work.",
+};
 
-<section className="border-y border-slate-200 bg-white">
-    <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
-
-        <div className="mx-auto max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-wider text-slate-400">
-                Free Online Tools
-            </p>
-
-            <h2 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">
-                Simple tools for everyday digital work
-            </h2>
-
-            <div className="mt-6 space-y-5 text-base leading-7 text-slate-600">
-                <p>
-                    DigitalKit is a collection of free online tools designed
-                    to help you complete common digital tasks quickly and
-                    without complicated software. From creating invoices and
-                    calculating profit to converting files, formatting text,
-                    working with images, and generating useful developer data,
-                    everything is available in one place.
-                </p>
-
-                <p>
-                    Need to resize or compress an image? Use the
-                    <a
-                        href="/image-resizer"
-                        className="mx-1 font-semibold text-slate-900 underline underline-offset-4"
-                    >
-                        Image Resizer
-                    </a>
-                    or
-                    <a
-                        href="/image-compressor"
-                        className="mx-1 font-semibold text-slate-900 underline underline-offset-4"
-                    >
-                        Image Compressor
-                    </a>.
-                    Working with data or code? Try the
-                    <a
-                        href="/json-formatter"
-                        className="mx-1 font-semibold text-slate-900 underline underline-offset-4"
-                    >
-                        JSON Formatter
-                    </a>,
-                    <a
-                        href="/base64"
-                        className="mx-1 font-semibold text-slate-900 underline underline-offset-4"
-                    >
-                        Base64 Encoder & Decoder
-                    </a>,
-                    or
-                    <a
-                        href="/uuid-generator"
-                        className="mx-1 font-semibold text-slate-900 underline underline-offset-4"
-                    >
-                        UUID Generator
-                    </a>.
-                </p>
-
-                <p>
-                    DigitalKit also includes practical calculators and
-                    business utilities. You can create an invoice, calculate
-                    percentages and tips, work out profit and pricing, convert
-                    units, generate QR codes, create strong passwords, and
-                    perform everyday text and color conversions.
-                </p>
-            </div>
-        </div>
-
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-
-            <div className="rounded-2xl border border-slate-200 p-6">
-                <h3 className="text-lg font-bold text-slate-900">
-                    Business & Finance
-                </h3>
-
-                <p className="mt-3 text-sm leading-6 text-slate-500">
-                    Create invoices and calculate profit, pricing,
-                    percentages, and tips with simple browser-based tools.
-                </p>
-
-                <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
-                    <a
-                        href="/invoice"
-                        className="text-slate-900 hover:underline"
-                    >
-                        Invoice Generator →
-                    </a>
-
-                    <a
-                        href="/profit"
-                        className="text-slate-900 hover:underline"
-                    >
-                        Profit Calculator →
-                    </a>
-                </div>
-            </div>
-
-            <div className="rounded-2xl border border-slate-200 p-6">
-                <h3 className="text-lg font-bold text-slate-900">
-                    Image & Design Tools
-                </h3>
-
-                <p className="mt-3 text-sm leading-6 text-slate-500">
-                    Resize, compress, enhance, and work with images directly
-                    in your browser.
-                </p>
-
-                <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
-                    <a
-                        href="/image-compressor"
-                        className="text-slate-900 hover:underline"
-                    >
-                        Compress Images →
-                    </a>
-
-                    <a
-                        href="/image-resizer"
-                        className="text-slate-900 hover:underline"
-                    >
-                        Resize Images →
-                    </a>
-
-                    <a
-                        href="/image-enhancer"
-                        className="text-slate-900 hover:underline"
-                    >
-                        Enhance Images →
-                    </a>
-                </div>
-            </div>
-
-            <div className="rounded-2xl border border-slate-200 p-6">
-                <h3 className="text-lg font-bold text-slate-900">
-                    Developer & Utility Tools
-                </h3>
-
-                <p className="mt-3 text-sm leading-6 text-slate-500">
-                    Format data, convert values, generate identifiers, work
-                    with colors, and handle everyday developer tasks.
-                </p>
-
-                <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
-                    <a
-                        href="/json-formatter"
-                        className="text-slate-900 hover:underline"
-                    >
-                        JSON Formatter →
-                    </a>
-
-                    <a
-                        href="/unit-converter"
-                        className="text-slate-900 hover:underline"
-                    >
-                        Unit Converter →
-                    </a>
-
-                    <a
-                        href="/qr-generator"
-                        className="text-slate-900 hover:underline"
-                    >
-                        QR Generator →
-                    </a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-{/* FAQ */ }
-
-<section className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
-    <div className="mx-auto max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-wider text-slate-400">
-            Frequently Asked Questions
-        </p>
-
-        <h2 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">
-            Questions about DigitalKit
-        </h2>
-
-        <div className="mt-8 space-y-4">
-
-            <details className="rounded-2xl border border-slate-200 bg-white p-5">
-                <summary className="cursor-pointer font-semibold text-slate-900">
-                    Are DigitalKit tools free to use?
-                </summary>
-
-                <p className="mt-3 text-sm leading-6 text-slate-600">
-                    Yes. DigitalKit provides free browser-based tools for
-                    common business, image, developer, calculator, and
-                    everyday digital tasks.
-                </p>
-            </details>
-
-            <details className="rounded-2xl border border-slate-200 bg-white p-5">
-                <summary className="cursor-pointer font-semibold text-slate-900">
-                    Do I need to install software?
-                </summary>
-
-                <p className="mt-3 text-sm leading-6 text-slate-600">
-                    No. DigitalKit tools are designed to work directly in
-                    your web browser, so you can open a tool and start
-                    working without installing a desktop application.
-                </p>
-            </details>
-
-            <details className="rounded-2xl border border-slate-200 bg-white p-5">
-                <summary className="cursor-pointer font-semibold text-slate-900">
-                    What types of tools are available?
-                </summary>
-
-                <p className="mt-3 text-sm leading-6 text-slate-600">
-                    DigitalKit includes business tools, calculators,
-                    image tools, developer utilities, converters, text
-                    tools, security utilities, and other practical online
-                    tools.
-                </p>
-            </details>
-
-            <details className="rounded-2xl border border-slate-200 bg-white p-5">
-                <summary className="cursor-pointer font-semibold text-slate-900">
-                    Can I use DigitalKit on my phone?
-                </summary>
-
-                <p className="mt-3 text-sm leading-6 text-slate-600">
-                    Yes. The website is designed to work across modern
-                    desktop and mobile web browsers.
-                </p>
-            </details>
-
-        </div>
-    </div>
-</section>
-
+const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "DigitalKit",
+    url: "https://www.getdigitalkit.online/",
+};
 
 export default function Home() {
     return (
         <main className="min-h-screen bg-slate-50 text-slate-900">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(websiteSchema),
+                }}
+            />
+
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(organizationSchema),
+                }}
+            />
 
             {/* HEADER */}
 
             <header className="border-b border-slate-200 bg-white">
                 <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-
                     <a href="/" className="flex items-center gap-3">
                         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-xl text-white">
                             ✦
@@ -403,18 +202,14 @@ export default function Home() {
                             Contact
                         </a>
                     </nav>
-
                 </div>
             </header>
 
             {/* HERO */}
 
             <section className="border-b border-slate-200 bg-white">
-
                 <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
-
                     <div className="mx-auto max-w-3xl text-center">
-
                         <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-600">
                             ⚡ Simple tools. Less busywork.
                         </div>
@@ -438,11 +233,8 @@ export default function Home() {
                         >
                             Explore Tools →
                         </a>
-
                     </div>
-
                 </div>
-
             </section>
 
             {/* TOOLS */}
@@ -451,9 +243,7 @@ export default function Home() {
                 id="tools"
                 className="mx-auto max-w-6xl px-6 py-16 sm:py-20"
             >
-
                 <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-
                     <div>
                         <p className="text-sm font-semibold uppercase tracking-wider text-slate-400">
                             DigitalKit Tools
@@ -464,27 +254,23 @@ export default function Home() {
                         </h2>
 
                         <p className="mt-3 max-w-xl text-slate-500">
-                            Choose a tool and get started instantly.
+                            Choose a free online tool and get started instantly.
                         </p>
                     </div>
 
                     <span className="text-sm text-slate-400">
                         {tools.length} tools available
                     </span>
-
                 </div>
 
                 <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-
                     {tools.map((tool) => (
                         <a
                             key={tool.href}
                             href={tool.href}
                             className="group flex flex-col rounded-3xl border border-slate-200 bg-white p-7 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg"
                         >
-
                             <div className="flex items-start justify-between">
-
                                 <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-3xl">
                                     {tool.icon}
                                 </div>
@@ -492,7 +278,6 @@ export default function Home() {
                                 <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-500">
                                     {tool.label}
                                 </span>
-
                             </div>
 
                             <h3 className="mt-7 text-xl font-bold">
@@ -510,22 +295,191 @@ export default function Home() {
                                     →
                                 </span>
                             </div>
-
                         </a>
                     ))}
-
                 </div>
+            </section>
 
+            {/* SEO CONTENT */}
+
+            <section className="border-y border-slate-200 bg-white">
+                <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+                    <div className="mx-auto max-w-3xl">
+                        <p className="text-sm font-semibold uppercase tracking-wider text-slate-400">
+                            Free Online Tools
+                        </p>
+
+                        <h2 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">
+                            Simple tools for everyday digital work
+                        </h2>
+
+                        <div className="mt-6 space-y-5 text-base leading-7 text-slate-600">
+                            <p>
+                                DigitalKit is a collection of free online tools
+                                designed to help you complete common digital
+                                tasks quickly and without complicated software.
+                                From creating invoices and calculating profit to
+                                working with images, formatting data, generating
+                                QR codes, and handling developer tasks,
+                                everything is available in one place.
+                            </p>
+
+                            <p>
+                                Need to resize or compress an image? Use the{" "}
+                                <a
+                                    href="/image-resizer"
+                                    className="font-semibold text-slate-900 underline underline-offset-4"
+                                >
+                                    Image Resizer
+                                </a>{" "}
+                                or{" "}
+                                <a
+                                    href="/image-compressor"
+                                    className="font-semibold text-slate-900 underline underline-offset-4"
+                                >
+                                    Image Compressor
+                                </a>
+                                . Working with data or code? Try the{" "}
+                                <a
+                                    href="/json-formatter"
+                                    className="font-semibold text-slate-900 underline underline-offset-4"
+                                >
+                                    JSON Formatter
+                                </a>
+                                ,{" "}
+                                <a
+                                    href="/base64"
+                                    className="font-semibold text-slate-900 underline underline-offset-4"
+                                >
+                                    Base64 Encoder & Decoder
+                                </a>
+                                , or{" "}
+                                <a
+                                    href="/uuid-generator"
+                                    className="font-semibold text-slate-900 underline underline-offset-4"
+                                >
+                                    UUID Generator
+                                </a>
+                                .
+                            </p>
+
+                            <p>
+                                DigitalKit also includes practical calculators
+                                and business utilities. You can create an
+                                invoice, calculate percentages and tips, work
+                                out profit and pricing, convert units, generate
+                                QR codes, create strong passwords, and perform
+                                everyday text and color conversions.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="mt-12 grid gap-6 md:grid-cols-3">
+                        <div className="rounded-2xl border border-slate-200 p-6">
+                            <h3 className="text-lg font-bold text-slate-900">
+                                Business & Finance
+                            </h3>
+
+                            <p className="mt-3 text-sm leading-6 text-slate-500">
+                                Create invoices and calculate profit, pricing,
+                                percentages, and tips with simple
+                                browser-based tools.
+                            </p>
+
+                            <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
+                                <a
+                                    href="/invoice"
+                                    className="text-slate-900 hover:underline"
+                                >
+                                    Invoice Generator →
+                                </a>
+
+                                <a
+                                    href="/profit"
+                                    className="text-slate-900 hover:underline"
+                                >
+                                    Profit Calculator →
+                                </a>
+                            </div>
+                        </div>
+
+                        <div className="rounded-2xl border border-slate-200 p-6">
+                            <h3 className="text-lg font-bold text-slate-900">
+                                Image & Design Tools
+                            </h3>
+
+                            <p className="mt-3 text-sm leading-6 text-slate-500">
+                                Resize, compress, enhance, and work with images
+                                directly in your browser.
+                            </p>
+
+                            <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
+                                <a
+                                    href="/image-compressor"
+                                    className="text-slate-900 hover:underline"
+                                >
+                                    Compress Images →
+                                </a>
+
+                                <a
+                                    href="/image-resizer"
+                                    className="text-slate-900 hover:underline"
+                                >
+                                    Resize Images →
+                                </a>
+
+                                <a
+                                    href="/image-enhancer"
+                                    className="text-slate-900 hover:underline"
+                                >
+                                    Enhance Images →
+                                </a>
+                            </div>
+                        </div>
+
+                        <div className="rounded-2xl border border-slate-200 p-6">
+                            <h3 className="text-lg font-bold text-slate-900">
+                                Developer & Utility Tools
+                            </h3>
+
+                            <p className="mt-3 text-sm leading-6 text-slate-500">
+                                Format data, convert values, generate
+                                identifiers, work with colors, and handle
+                                everyday developer tasks.
+                            </p>
+
+                            <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
+                                <a
+                                    href="/json-formatter"
+                                    className="text-slate-900 hover:underline"
+                                >
+                                    JSON Formatter →
+                                </a>
+
+                                <a
+                                    href="/unit-converter"
+                                    className="text-slate-900 hover:underline"
+                                >
+                                    Unit Converter →
+                                </a>
+
+                                <a
+                                    href="/qr-generator"
+                                    className="text-slate-900 hover:underline"
+                                >
+                                    QR Generator →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             {/* WHY DIGITALKIT */}
 
             <section className="border-y border-slate-200 bg-white">
-
                 <div className="mx-auto max-w-6xl px-6 py-16">
-
                     <div className="mx-auto max-w-2xl text-center">
-
                         <h2 className="text-3xl font-bold tracking-tight">
                             Built to stay simple
                         </h2>
@@ -534,17 +488,13 @@ export default function Home() {
                             No complicated dashboards. No unnecessary steps.
                             Just useful tools that help you finish the task.
                         </p>
-
                     </div>
 
                     <div className="mt-12 grid gap-6 md:grid-cols-3">
-
                         <div className="rounded-2xl border border-slate-200 p-6">
                             <div className="text-2xl">⚡</div>
 
-                            <h3 className="mt-4 font-bold">
-                                Fast
-                            </h3>
+                            <h3 className="mt-4 font-bold">Fast</h3>
 
                             <p className="mt-2 text-sm leading-6 text-slate-500">
                                 Open a tool and start working immediately.
@@ -554,9 +504,7 @@ export default function Home() {
                         <div className="rounded-2xl border border-slate-200 p-6">
                             <div className="text-2xl">🎯</div>
 
-                            <h3 className="mt-4 font-bold">
-                                Focused
-                            </h3>
+                            <h3 className="mt-4 font-bold">Focused</h3>
 
                             <p className="mt-2 text-sm leading-6 text-slate-500">
                                 Each tool is designed around one useful task.
@@ -566,27 +514,85 @@ export default function Home() {
                         <div className="rounded-2xl border border-slate-200 p-6">
                             <div className="text-2xl">🛠️</div>
 
-                            <h3 className="mt-4 font-bold">
-                                Practical
-                            </h3>
+                            <h3 className="mt-4 font-bold">Practical</h3>
 
                             <p className="mt-2 text-sm leading-6 text-slate-500">
                                 Built for everyday personal and business work.
                             </p>
                         </div>
-
                     </div>
-
                 </div>
+            </section>
 
+            {/* FAQ */}
+
+            <section className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+                <div className="mx-auto max-w-3xl">
+                    <p className="text-sm font-semibold uppercase tracking-wider text-slate-400">
+                        Frequently Asked Questions
+                    </p>
+
+                    <h2 className="mt-2 text-3xl font-bold tracking-tight">
+                        Questions about DigitalKit
+                    </h2>
+
+                    <div className="mt-8 space-y-4">
+                        <details className="rounded-2xl border border-slate-200 bg-white p-5">
+                            <summary className="cursor-pointer font-semibold">
+                                Are DigitalKit tools free to use?
+                            </summary>
+
+                            <p className="mt-3 text-sm leading-6 text-slate-600">
+                                Yes. DigitalKit provides free browser-based
+                                tools for common business, image, developer,
+                                calculator, and everyday digital tasks.
+                            </p>
+                        </details>
+
+                        <details className="rounded-2xl border border-slate-200 bg-white p-5">
+                            <summary className="cursor-pointer font-semibold">
+                                Do I need to install software?
+                            </summary>
+
+                            <p className="mt-3 text-sm leading-6 text-slate-600">
+                                No. DigitalKit tools are designed to work
+                                directly in your web browser, so you can open a
+                                tool and start working without installing a
+                                desktop application.
+                            </p>
+                        </details>
+
+                        <details className="rounded-2xl border border-slate-200 bg-white p-5">
+                            <summary className="cursor-pointer font-semibold">
+                                What types of tools are available?
+                            </summary>
+
+                            <p className="mt-3 text-sm leading-6 text-slate-600">
+                                DigitalKit includes business tools,
+                                calculators, image tools, developer utilities,
+                                converters, text tools, security utilities,
+                                and other practical online tools.
+                            </p>
+                        </details>
+
+                        <details className="rounded-2xl border border-slate-200 bg-white p-5">
+                            <summary className="cursor-pointer font-semibold">
+                                Can I use DigitalKit on my phone?
+                            </summary>
+
+                            <p className="mt-3 text-sm leading-6 text-slate-600">
+                                Yes. The website is designed to work across
+                                modern desktop and mobile web browsers.
+                            </p>
+                        </details>
+                    </div>
+                </div>
             </section>
 
             {/* CTA */}
 
             <section className="mx-auto max-w-6xl px-6 py-16">
-
                 <div className="rounded-3xl bg-slate-900 px-7 py-12 text-center text-white sm:px-12">
-
                     <h2 className="text-3xl font-bold">
                         Have an idea for a tool?
                     </h2>
@@ -602,21 +608,15 @@ export default function Home() {
                     >
                         Contact Us
                     </a>
-
                 </div>
-
             </section>
 
             {/* FOOTER */}
 
             <footer className="border-t border-slate-200 bg-white">
-
                 <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-8 sm:flex-row sm:items-center sm:justify-between">
-
                     <div>
-                        <div className="font-bold">
-                            DigitalKit
-                        </div>
+                        <div className="font-bold">DigitalKit</div>
 
                         <p className="mt-1 text-sm text-slate-400">
                             Simple tools for everyday digital work.
@@ -624,7 +624,6 @@ export default function Home() {
                     </div>
 
                     <div className="flex flex-wrap gap-6 text-sm text-slate-500">
-
                         <a
                             href="/privacy"
                             className="hover:text-slate-900"
@@ -645,13 +644,9 @@ export default function Home() {
                         >
                             Contact
                         </a>
-
                     </div>
-
                 </div>
-
             </footer>
-
         </main>
     );
 }

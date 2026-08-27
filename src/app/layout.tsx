@@ -1,36 +1,28 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const siteUrl = "https://getdigitalkit.online";
-
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL("https://www.getdigitalkit.online"),
 
   title: {
-    default: "DigitalKit - Free Online Tools",
+    default: "DigitalKit – Free Online Tools for Everyday Work",
     template: "%s | DigitalKit",
   },
 
   description:
-    "DigitalKit is a collection of fast, simple and free online tools for business, developers, images, calculations and everyday digital work.",
+    "DigitalKit provides free online tools for business, images, developers, calculators, text, security, and everyday digital tasks.",
 
   keywords: [
-    "online tools",
     "free online tools",
+    "online tools",
+    "free tools",
     "digital tools",
-    "invoice generator",
-    "image compressor",
-    "image resizer",
-    "QR code generator",
-    "password generator",
-    "JSON formatter",
-    "Base64 encoder",
-    "UUID generator",
-    "timestamp converter",
-    "unit converter",
-    "percentage calculator",
-    "tip calculator",
-    "color converter",
+    "business tools",
+    "image tools",
+    "developer tools",
+    "calculators",
+    "online calculator",
+    "productivity tools",
   ],
 
   authors: [
@@ -41,10 +33,6 @@ export const metadata: Metadata = {
 
   creator: "DigitalKit",
   publisher: "DigitalKit",
-
-  alternates: {
-    canonical: siteUrl,
-  },
 
   robots: {
     index: true,
@@ -58,20 +46,28 @@ export const metadata: Metadata = {
     },
   },
 
+  alternates: {
+    canonical: "https://www.getdigitalkit.online/",
+  },
+
   openGraph: {
     type: "website",
+    url: "https://www.getdigitalkit.online/",
     siteName: "DigitalKit",
-    title: "DigitalKit - Free Online Tools",
+    title: "DigitalKit – Free Online Tools for Everyday Work",
     description:
-      "Fast, simple and free online tools for business, developers, images, calculations and everyday digital work.",
-    url: siteUrl,
+      "Free online tools for business, images, developers, calculators, security, text, and everyday digital tasks.",
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "DigitalKit - Free Online Tools",
+    title: "DigitalKit – Free Online Tools",
     description:
-      "Fast, simple and free online tools for everyday digital work.",
+      "Simple, free online tools for everyday digital work.",
+  },
+
+  icons: {
+    icon: "/favicon.ico",
   },
 };
 
@@ -82,7 +78,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body>{children}</body>
     </html>
   );
 }
