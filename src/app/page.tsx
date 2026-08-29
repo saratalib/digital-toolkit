@@ -1,3 +1,8 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+
 const tools = [
     {
         name: "Invoice Generator",
@@ -181,7 +186,32 @@ const faqStructuredData = {
     })),
 };
 
+type Article = {
+    id: string;
+    title: string;
+    slug: string;
+    category: string;
+    excerpt: string;
+    featured_image: string;
+    created_at: string;
+};
+
 export default function Home() {
+    const [articles, setArticles] = useState<Article[]>([]);
+
+    useEffect(() => {
+        fetch("/api/articles", {
+            cache: "no-store",
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setArticles(data.articles || []);
+            })
+            .catch(() => {
+                setArticles([]);
+            });
+    }, []);
+
     return (
         <main className="min-h-screen bg-slate-50 text-slate-900">
             <script
@@ -208,7 +238,7 @@ export default function Home() {
             {/* HEADER */}
             <header className="border-b border-slate-200 bg-white">
                 <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-                    <a href="/" className="flex items-center gap-3">
+                    <Link href="/" className="flex items-center gap-3">
                         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-xl text-white">
                             ✦
                         </div>
@@ -216,20 +246,29 @@ export default function Home() {
                         <span className="text-xl font-bold tracking-tight">
                             DigitalKit
                         </span>
-                    </a>
+                    </Link>
 
                     <nav className="hidden items-center gap-7 text-sm font-medium text-slate-500 sm:flex">
-                        <a href="#tools" className="hover:text-slate-900">
+                        <a
+                            href="#tools"
+                            className="hover:text-slate-900"
+                        >
                             Tools
                         </a>
 
-                        <a href="#faq" className="hover:text-slate-900">
+                        <a
+                            href="#faq"
+                            className="hover:text-slate-900"
+                        >
                             FAQ
                         </a>
 
-                        <a href="/contact" className="hover:text-slate-900">
+                        <Link
+                            href="/contact"
+                            className="hover:text-slate-900"
+                        >
                             Contact
-                        </a>
+                        </Link>
                     </nav>
                 </div>
             </header>
@@ -293,7 +332,7 @@ export default function Home() {
 
                 <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {tools.map((tool) => (
-                        <a
+                        <Link
                             key={tool.href}
                             href={tool.href}
                             className="group flex flex-col rounded-3xl border border-slate-200 bg-white p-7 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg"
@@ -308,7 +347,9 @@ export default function Home() {
                                 </span>
                             </div>
 
-                            <h3 className="mt-7 text-xl font-bold">{tool.name}</h3>
+                            <h3 className="mt-7 text-xl font-bold">
+                                {tool.name}
+                            </h3>
 
                             <p className="mt-3 flex-1 text-sm leading-6 text-slate-500">
                                 {tool.description}
@@ -320,7 +361,7 @@ export default function Home() {
                                     →
                                 </span>
                             </div>
-                        </a>
+                        </Link>
                     ))}
                 </div>
             </section>
@@ -349,98 +390,98 @@ export default function Home() {
 
                             <p>
                                 Need to work with images? Use the{" "}
-                                <a
+                                <Link
                                     href="/image-resizer"
                                     className="font-semibold text-slate-900 underline underline-offset-4"
                                 >
                                     Image Resizer
-                                </a>{" "}
+                                </Link>{" "}
                                 or{" "}
-                                <a
+                                <Link
                                     href="/image-compressor"
                                     className="font-semibold text-slate-900 underline underline-offset-4"
                                 >
                                     Image Compressor
-                                </a>
+                                </Link>
                                 . You can also use the{" "}
-                                <a
+                                <Link
                                     href="/image-enhancer"
                                     className="font-semibold text-slate-900 underline underline-offset-4"
                                 >
                                     AI Image Enhancer
-                                </a>{" "}
+                                </Link>{" "}
                                 to improve and upscale images.
                             </p>
 
                             <p>
                                 Developers can use the{" "}
-                                <a
+                                <Link
                                     href="/json-formatter"
                                     className="font-semibold text-slate-900 underline underline-offset-4"
                                 >
                                     JSON Formatter
-                                </a>
+                                </Link>
                                 ,{" "}
-                                <a
+                                <Link
                                     href="/base64"
                                     className="font-semibold text-slate-900 underline underline-offset-4"
                                 >
                                     Base64 Encoder & Decoder
-                                </a>
+                                </Link>
                                 ,{" "}
-                                <a
+                                <Link
                                     href="/uuid-generator"
                                     className="font-semibold text-slate-900 underline underline-offset-4"
                                 >
                                     UUID Generator
-                                </a>
+                                </Link>
                                 , and{" "}
-                                <a
+                                <Link
                                     href="/timestamp-converter"
                                     className="font-semibold text-slate-900 underline underline-offset-4"
                                 >
                                     Timestamp Converter
-                                </a>{" "}
+                                </Link>{" "}
                                 for common development tasks.
                             </p>
 
                             <p>
                                 DigitalKit also provides practical calculators and business
                                 utilities including an{" "}
-                                <a
+                                <Link
                                     href="/invoice"
                                     className="font-semibold text-slate-900 underline underline-offset-4"
                                 >
                                     Invoice Generator
-                                </a>
+                                </Link>
                                 ,{" "}
-                                <a
+                                <Link
                                     href="/profit"
                                     className="font-semibold text-slate-900 underline underline-offset-4"
                                 >
                                     Profit & Pricing Calculator
-                                </a>
+                                </Link>
                                 ,{" "}
-                                <a
+                                <Link
                                     href="/percentage-calculator"
                                     className="font-semibold text-slate-900 underline underline-offset-4"
                                 >
                                     Percentage Calculator
-                                </a>
+                                </Link>
                                 ,{" "}
-                                <a
+                                <Link
                                     href="/tip-calculator"
                                     className="font-semibold text-slate-900 underline underline-offset-4"
                                 >
                                     Tip Calculator
-                                </a>
+                                </Link>
                                 , and{" "}
-                                <a
+                                <Link
                                     href="/unit-converter"
                                     className="font-semibold text-slate-900 underline underline-offset-4"
                                 >
                                     Unit Converter
-                                </a>
+                                </Link>
                                 .
                             </p>
                         </div>
@@ -458,19 +499,19 @@ export default function Home() {
                             </p>
 
                             <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
-                                <a
+                                <Link
                                     href="/invoice"
                                     className="text-slate-900 hover:underline"
                                 >
                                     Invoice Generator →
-                                </a>
+                                </Link>
 
-                                <a
+                                <Link
                                     href="/profit"
                                     className="text-slate-900 hover:underline"
                                 >
                                     Profit Calculator →
-                                </a>
+                                </Link>
                             </div>
                         </div>
 
@@ -485,26 +526,26 @@ export default function Home() {
                             </p>
 
                             <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
-                                <a
+                                <Link
                                     href="/image-compressor"
                                     className="text-slate-900 hover:underline"
                                 >
                                     Compress Images →
-                                </a>
+                                </Link>
 
-                                <a
+                                <Link
                                     href="/image-resizer"
                                     className="text-slate-900 hover:underline"
                                 >
                                     Resize Images →
-                                </a>
+                                </Link>
 
-                                <a
+                                <Link
                                     href="/image-enhancer"
                                     className="text-slate-900 hover:underline"
                                 >
                                     Enhance Images →
-                                </a>
+                                </Link>
                             </div>
                         </div>
 
@@ -519,31 +560,109 @@ export default function Home() {
                             </p>
 
                             <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
-                                <a
+                                <Link
                                     href="/json-formatter"
                                     className="text-slate-900 hover:underline"
                                 >
                                     JSON Formatter →
-                                </a>
+                                </Link>
 
-                                <a
+                                <Link
                                     href="/unit-converter"
                                     className="text-slate-900 hover:underline"
                                 >
                                     Unit Converter →
-                                </a>
+                                </Link>
 
-                                <a
+                                <Link
                                     href="/qr-generator"
                                     className="text-slate-900 hover:underline"
                                 >
                                     QR Generator →
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
+
+            {/* LATEST ARTICLES */}
+            {articles.length > 0 && (
+                <section className="border-b border-slate-200 bg-slate-50">
+                    <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+                        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+                            <div>
+                                <p className="text-sm font-semibold uppercase tracking-wider text-slate-400">
+                                    From the DigitalKit Blog
+                                </p>
+
+                                <h2 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">
+                                    Helpful guides & articles
+                                </h2>
+
+                                <p className="mt-3 max-w-xl text-slate-500">
+                                    Learn how to use online tools, work more efficiently,
+                                    and solve everyday digital tasks.
+                                </p>
+                            </div>
+
+                            <Link
+                                href="/blog"
+                                className="text-sm font-semibold text-slate-900 hover:underline"
+                            >
+                                View all articles →
+                            </Link>
+                        </div>
+
+                        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                            {articles.map((article) => (
+                                <Link
+                                    key={article.id}
+                                    href={`/blog/${article.slug}`}
+                                    className="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition duration-200 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg"
+                                >
+                                    {article.featured_image ? (
+                                        <img
+                                            src={article.featured_image}
+                                            alt={article.title}
+                                            className="h-48 w-full object-cover"
+                                        />
+                                    ) : (
+                                        <div className="flex h-48 items-center justify-center bg-slate-100">
+                                            <span className="text-5xl">
+                                                📝
+                                            </span>
+                                        </div>
+                                    )}
+
+                                    <div className="p-6">
+                                        <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                                            {article.category}
+                                        </p>
+
+                                        <h3 className="mt-3 text-xl font-bold text-slate-900 group-hover:underline">
+                                            {article.title}
+                                        </h3>
+
+                                        {article.excerpt && (
+                                            <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-500">
+                                                {article.excerpt}
+                                            </p>
+                                        )}
+
+                                        <div className="mt-6 text-sm font-semibold text-slate-900">
+                                            Read Article
+                                            <span className="ml-2 transition-transform group-hover:translate-x-1">
+                                                →
+                                            </span>
+                                        </div>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* WHY DIGITALKIT */}
             <section className="border-b border-slate-200 bg-white">
@@ -563,7 +682,9 @@ export default function Home() {
                         <div className="rounded-2xl border border-slate-200 p-6">
                             <div className="text-2xl">⚡</div>
 
-                            <h3 className="mt-4 font-bold">Fast</h3>
+                            <h3 className="mt-4 font-bold">
+                                Fast
+                            </h3>
 
                             <p className="mt-2 text-sm leading-6 text-slate-500">
                                 Open a tool and start working immediately.
@@ -573,7 +694,9 @@ export default function Home() {
                         <div className="rounded-2xl border border-slate-200 p-6">
                             <div className="text-2xl">🎯</div>
 
-                            <h3 className="mt-4 font-bold">Focused</h3>
+                            <h3 className="mt-4 font-bold">
+                                Focused
+                            </h3>
 
                             <p className="mt-2 text-sm leading-6 text-slate-500">
                                 Each tool is designed around one useful task.
@@ -583,7 +706,9 @@ export default function Home() {
                         <div className="rounded-2xl border border-slate-200 p-6">
                             <div className="text-2xl">🛠️</div>
 
-                            <h3 className="mt-4 font-bold">Practical</h3>
+                            <h3 className="mt-4 font-bold">
+                                Practical
+                            </h3>
 
                             <p className="mt-2 text-sm leading-6 text-slate-500">
                                 Built for everyday personal and business work.
@@ -594,7 +719,10 @@ export default function Home() {
             </section>
 
             {/* FAQ */}
-            <section id="faq" className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+            <section
+                id="faq"
+                className="mx-auto max-w-6xl px-6 py-16 sm:py-20"
+            >
                 <div className="mx-auto max-w-3xl">
                     <p className="text-sm font-semibold uppercase tracking-wider text-slate-400">
                         Frequently Asked Questions
@@ -634,12 +762,12 @@ export default function Home() {
                         Tell us what would make your everyday digital work easier.
                     </p>
 
-                    <a
+                    <Link
                         href="/contact"
                         className="mt-7 inline-flex rounded-xl bg-white px-6 py-3.5 font-semibold text-slate-900 transition hover:bg-slate-100"
                     >
                         Contact Us
-                    </a>
+                    </Link>
                 </div>
             </section>
 
@@ -647,7 +775,9 @@ export default function Home() {
             <footer className="border-t border-slate-200 bg-white">
                 <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-8 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <div className="font-bold">DigitalKit</div>
+                        <div className="font-bold">
+                            DigitalKit
+                        </div>
 
                         <p className="mt-1 text-sm text-slate-400">
                             Free online tools for everyday digital work.
@@ -655,17 +785,26 @@ export default function Home() {
                     </div>
 
                     <div className="flex flex-wrap gap-6 text-sm text-slate-500">
-                        <a href="/privacy" className="hover:text-slate-900">
+                        <Link
+                            href="/privacy"
+                            className="hover:text-slate-900"
+                        >
                             Privacy
-                        </a>
+                        </Link>
 
-                        <a href="/terms" className="hover:text-slate-900">
+                        <Link
+                            href="/terms"
+                            className="hover:text-slate-900"
+                        >
                             Terms
-                        </a>
+                        </Link>
 
-                        <a href="/contact" className="hover:text-slate-900">
+                        <Link
+                            href="/contact"
+                            className="hover:text-slate-900"
+                        >
                             Contact
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </footer>
