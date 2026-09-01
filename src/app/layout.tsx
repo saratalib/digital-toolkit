@@ -88,14 +88,14 @@ export default function RootLayout({
 
         <Script id="google-analytics" strategy="afterInteractive">
           {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-            gtag('config', 'G-B1T224RWQS', {
-  debug_mode: true,
-});
-          `}
+    gtag('config', 'G-KZ51YNMG02', {
+      debug_mode: true,
+    });
+  `}
         </Script>
 
         {children}
